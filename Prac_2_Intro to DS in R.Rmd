@@ -1,7 +1,7 @@
 ---
 title: Introduction to distance sampling
 author: Centre for Research into Ecological and Environmental Modelling  **University of St Andrews**
-subtitle: Workshop, 17-28 February 2020
+subtitle: Workshop, 04-15 May 2020
 date: Exercise 2. Line transect estimation using R
 output: 
   html_document:
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 answer <- FALSE
 ```
 
-In this exercise, we use `R` (R Core Team 2018) and the `Distance` package (Miller 2017, Miller *et al.* 2019) to fit different detection function models to the duck nest data (introduced in Exercise 1) and estimate duck nest density and abundance.
+In this exercise, we use `R` (R Core Team 2018) and the `Distance` package (Miller 2020, Miller *et al.* 2019) to fit different detection function models to the duck nest data (introduced in Exercise 1) and estimate duck nest density and abundance.
 
 # Objectives 
 
