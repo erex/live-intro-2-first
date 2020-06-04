@@ -439,7 +439,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Introduction to distance sampling</h1>
-<h3 class="subtitle">Workshop, 04-15 May 2020</h3>
+<h3 class="subtitle">Workshop, 06-17 July 2020</h3>
 <h4 class="author">Centre for Research into Ecological and Environmental Modelling <strong>University of St Andrews</strong></h4>
 <h4 class="date">Exercise 2. Line transect estimation using R</h4>
 
@@ -465,7 +465,7 @@ summary {
 <ul>
 <li>Study.Area - this is the name of the study, Monte Vista NWR</li>
 <li>Region.Label - identifier of regions: in this case there is only one region and it is set to ‘Default’</li>
-<li>Area - size of the study region (km<span class="math inline">\(^2\)</span>): here the area is set to zero </li>
+<li>Area - size of the study region (km<span class="math inline">\(^2\)</span>): here the area is set to zero. <em>The area of the refuge is 47.7 km<span class="math inline">\(^2\)</span> - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.</em></li>
 <li>Sample.Label - line transect identifier (numbered 1-20)</li>
 <li>Effort - length of the line transects (km)</li>
 <li>object - unique identifier for each duck nest identified</li>
@@ -475,7 +475,7 @@ summary {
 </div>
 <div id="using-the-distance-package" class="section level1">
 <h1><span class="header-section-number">3</span> Using the <code>Distance</code> package</h1>
-<p>The <code>Distance</code> package (Miller 2017) has been installed in RStudio/Cloud. When you work on your own machine, you will need to install it with this pair of commands:</p>
+<p>The <code>Distance</code> package (Miller 2017) has been installed in RStudio/Cloud. <em>When you work on your own machine</em>, you will need to install it with this pair of commands:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(remotes)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;DistanceDevelopment/Distance&quot;</span>)</span></code></pre></div>
 </div>

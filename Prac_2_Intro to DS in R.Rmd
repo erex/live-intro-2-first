@@ -1,7 +1,7 @@
 ---
 title: Introduction to distance sampling
 author: Centre for Research into Ecological and Environmental Modelling  **University of St Andrews**
-subtitle: Workshop, 04-15 May 2020
+subtitle: Workshop, 06-17 July 2020
 date: Exercise 2. Line transect estimation using R
 output: 
   html_document:
@@ -35,7 +35,7 @@ As a reminder of the survey, 20 line transects, each of length 128.75 km, were s
 
 + Study.Area - this is the name of the study, Monte Vista NWR
 + Region.Label - identifier of regions: in this case there is only one region and it is set to 'Default'
-+ Area - size of the study region (km$^2$): here the area is set to zero \footnote{The area of the refuge is 47.7 km$^2$ - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.}
++ Area - size of the study region (km$^2$): here the area is set to zero. *The area of the refuge is 47.7 km$^2$ - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.*
 + Sample.Label - line transect identifier (numbered 1-20)
 + Effort - length of the line transects (km) 
 + object - unique identifier for each duck nest identified
@@ -45,7 +45,7 @@ The distances allow different key functions/adjustments to be fitted in the dete
 
 # Using the `Distance` package
 
-The `Distance` package (Miller 2017) has been installed in RStudio/Cloud.  When you work on your own machine, you will need to install it with this pair of commands:
+The `Distance` package (Miller 2017) has been installed in RStudio/Cloud.  *When you work on your own machine*, you will need to install it with this pair of commands:
 
 ```{r, eval=FALSE}
 install.packages(remotes)

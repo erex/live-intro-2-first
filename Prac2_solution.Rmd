@@ -2,7 +2,7 @@
 title: "Introduction to distance sampling"
 author: "Centre for Research into Ecological and Environmental Modelling **University of St Andrews**"
 date: "Exercise 2. Line transect estimation using R "
-subtitle: Workshop, 04-15 May 2020
+subtitle: Workshop, 06-17 July 2020
 output:
   html_document:
     number_sections: yes
