@@ -2,7 +2,7 @@
 title: "Introduction to distance sampling"
 author: Centre for Research into Ecological and Environmental Modelling <br> **University
   of St Andrews**
-date: Exercise 2. Line transect estimation using R <br>September 2020
+date: Exercise 2. Line transect estimation using R <br>November 2020
 output:
   rmdformats::readthedown:
     highlight: tango
@@ -25,7 +25,7 @@ library(Distance)
 data(ducknest)
 # Check data OK
 head(ducknest, n=3)
-# How many observations (note: detections on all lines)
+# How many observations (note: detections made on every transect)
 nrow(ducknest)
 # Histogram with 8 bins
 brks <- seq(from=0, to=2.4, by=0.3)

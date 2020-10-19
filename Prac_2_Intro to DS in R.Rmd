@@ -2,53 +2,55 @@
 title: "Introduction to distance sampling"
 author: Centre for Research into Ecological and Environmental Modelling <br> **University
   of St Andrews**
-date: Exercise 2. Line transect estimation using R <br>September 2020
+date: Exercise 2. Line transect estimation using R <br>November 2020
 output:
   rmdformats::readthedown:
     highlight: tango
+bibliography: references.bib
+csl: apa.csl
 ---
+
 ```{r, include=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 # Specify whether answers are shown 
 answer <- FALSE
 ```
 
-In this exercise, we use `R` (R Core Team 2018) and the `Distance` package (Miller 2020, Miller *et al.* 2019) to fit different detection function models to the duck nest data (introduced in Exercise 1) and estimate duck nest density and abundance.
+In this exercise, we use `R` [@rcoreteam2019] and the `Distance` package [@miller2019] to fit different detection function models to the duck nest data (introduced in Exercise 1) and estimate duck nest density and abundance.
 
-# Objectives 
+# Objectives
 
 The aims of this exercise are to:
 
-1. Load the Distance library
-2. Import a data file
-3. Fit a basic detection function using the `ds` function
-4. Plot and examine a detection function 
-5. Assess goodness of fit of the detection function
-6. Fit different detection function forms.
+1.  Load the Distance library
+2.  Import a data file
+3.  Fit a basic detection function using the `ds` function
+4.  Plot and examine a detection function
+5.  Assess goodness of fit of the detection function
+6.  Fit different detection function forms.
 
-# Survey data 
+# Survey data
 
-As a reminder of the survey, 20 line transects, each of length 128.75 km, were searched out to a distance of 2.4 metres (Anderson and Pospahala 1970). Perpendicular distances to detected nests have been provided in a data set named `ducknest`. The columns in the file `ducknest` are:
+As a reminder of the survey, 20 line transects, each of length 128.75 km, were searched out to a distance of 2.4 metres [@anderson1970]. Perpendicular distances to detected nests have been provided in a data set named `ducknest`. The columns in the file `ducknest` are:
 
-+ Study.Area - this is the name of the study, Monte Vista NWR
-+ Region.Label - identifier of regions: in this case there is only one region and it is set to 'Default'
-+ Area - size of the study region (km$^2$): here the area is set to zero. *The area of the refuge is 47.7 km$^2$ - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.*
-+ Sample.Label - line transect identifier (numbered 1-20)
-+ Effort - length of the line transects (km) 
-+ object - unique identifier for each duck nest identified
-+ distance - perpendicular distance (metres) to each duck nest.
+-   Study.Area - this is the name of the study, Monte Vista NWR
+-   Region.Label - identifier of regions: in this case there is only one region and it is set to 'Default'
+-   Area - size of the study region (km$^2$): here the area is set to zero. *The area of the refuge is 47.7 km*$^2$ - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.
+-   Sample.Label - line transect identifier (numbered 1-20)
+-   Effort - length of the line transects (km)
+-   object - unique identifier for each duck nest identified
+-   distance - perpendicular distance (metres) to each duck nest.
 
-The distances allow different key functions/adjustments to be fitted in the detection function model and, by including the transect lengths and area of the region, density and abundance can be estimated. 
+The distances allow different key functions/adjustments to be fitted in the detection function model and, by including the transect lengths and area of the region, density and abundance can be estimated.
 
 # Using the `Distance` package
 
-The `Distance` package (Miller 2017) has been installed in RStudio/Cloud.  *When you work on your own machine*, you will need to install it with this pair of commands:
+The `Distance` package has been installed in RStudio/Cloud. *When you work on your own machine*, you will need to install it with this pair of commands:
 
 ```{r, eval=FALSE}
 install.packages(remotes)
 remotes::install_github("DistanceDevelopment/Distance")
 ```
-
 
 # Accessing the data
 
@@ -59,7 +61,7 @@ library(Distance)
 data(ducknest)
 ```
 
-To look at the first few rows of `ducknest` type the following command. 
+To look at the first few rows of `ducknest` type the following command.
 
 ```{r,echo=TRUE, eval=FALSE}
 head(ducknest)
@@ -85,27 +87,29 @@ Similarly to plot a histogram of distances, the command is:
 hist(ducknest$distance, xlab="Distance (m)")
 ```
 
-
 # Fitting a simple detection function model with `ds`
 
-Detection functions are fitted using the `ds` function and this function requires a data frame to have a column called `distance`. We have this in our `ducknest` data, therefore, we can simply supply the name of the data frame to the function as follows. 
+Detection functions are fitted using the `ds` function and this function requires a data frame to have a column called `distance`. We have this in our `ducknest` data, therefore, we can simply supply the name of the data frame to the function as follows.
 
-<div class="alert alert-info">
-  <strong>Careful!</strong> A guaranteed way to produce incorrect results from your analysis is to misspecify the units distances are measured.  The `ds` function has an argument `convert.units` where the user provides a value to report density in proper units.  Providing an incorrect value will result in estimates that are out by orders of magnitude.
-</div>
+::: {.alert .alert-info}
+<strong>Careful!</strong> A guaranteed way to produce incorrect results from your analysis is to misspecify the units distances are measured. The `ds` function has an argument `convert.units` where the user provides a value to report density in proper units. Providing an incorrect value will result in estimates that are out by orders of magnitude.
+:::
 
+Before fitting a model, the units of measure within the survey need to be reconciled. We can choose the units in which duck nest density is to be reported, we choose *square kilometres*. How to import this information to the `ds` function?
 
-Before fitting a model, the units of measure within the survey need to be reconciled.   We can choose the units in which duck nest density is to be reported, we choose *square kilometres*.  How to import this information to the `ds` function?  
+The answer is another function `convert_units`. Arguments to this function are
 
-The answer is another function `convert_units`.  Arguments to this function are
+-   distance\_units
 
-- distance_units	
-  - units of measure for perpendicular/radial distances
-- effort_units	
-  - units of measure for effort (NULL for point transects)
-- area_units	
-  - units of measure for the study area.
+    -   units of measure for perpendicular/radial distances
 
+-   effort\_units
+
+    -   units of measure for effort (NULL for point transects)
+
+-   area\_units
+
+    -   units of measure for the study area.
 
 ```{r, echo=TRUE, eval=FALSE}
 conversion.factor <- convert_units("meter", "kilometer", "square kilometer")
@@ -119,12 +123,17 @@ nest.hn <- ds(data=ducknest, key="hn", adjustment=NULL,
 
 Details about the arguments for this function:
 
-+ `key="hn"`
-  - fit a half-normal key detection function
-+ `adjustment=NULL` 
-  - do not include adjustment terms
-+ `convert.units=conversion.factor` 
-  - required because, for this example, the perpendicular distances are in metres and the line transect lengths are in km - this argument converts the perpendicular distance measurements from metres to km.
+-   `key="hn"`
+
+    -   fit a half-normal key detection function
+
+-   `adjustment=NULL`
+
+    -   do not include adjustment terms
+
+-   `convert.units=conversion.factor`
+
+    -   required because, for this example, the perpendicular distances are in metres and the line transect lengths are in km - this argument converts the perpendicular distance measurements from metres to km.
 
 As we have seen, on executing the `ds` command some information is provided to the screen reminding the user what model has been fitted and the associated AIC value. More information is supplied if we ask for a summary of the model as follows:
 
@@ -133,7 +142,7 @@ As we have seen, on executing the `ds` command some information is provided to t
 summary(nest.hn)
 ```
 
-Can you match the information with the values you used in Exercise 1 - was your density estimate similar to the one obtained here?  
+Can you match the information with the values you used in Exercise 1 - was your density estimate similar to the one obtained here?
 
 To look at the fitted detection function, simply use the `plot` function:
 
@@ -147,11 +156,11 @@ The number of bins in the histogram can be changed by specifying the `nc` argume
 plot(nest.hn, nc=8)
 ```
 
-The histogram should look like the one you drew in Exercise 1. 
+The histogram should look like the one you drew in Exercise 1.
 
-# Goodness of fit 
+# Goodness of fit
 
-The usual tools for checking goodness of fit are available: the function `gof_ds` performs goodness of fits tests and plots a QQ-plot. In this command, 8 bins will be used for the chi-square goodness of fit test. 
+Prior to making inference based upon a detection function model, it is prudent to assess the fit of the model. The usual tools for checking goodness of fit are available: the function `gof_ds` performs goodness of fits tests and plots a QQ-plot. In this command, 8 bins will be used for the chi-square goodness of fit test.
 
 ```{r, echo=TRUE, eval=answer, fig.width=4, fig.height=4}
 gof_ds(nest.hn, nc=8)
@@ -159,22 +168,22 @@ gof_ds(nest.hn, nc=8)
 
 # Specifying different detection functions
 
-Different detection function forms and shapes, are specified by changing the `key` and `adjustment` arguments. 
+Different detection function forms and shapes, are specified by changing the `key` and `adjustment` arguments.
 
 The different options available for `key` detection functions are:
 
-+ half normal (`key="hn"`) - this is the default
-+ hazard rate (`key="hr"`)
-+ uniform (`key="unif"`)
+-   half normal (`key="hn"`) - this is the default
+-   hazard rate (`key="hr"`)
+-   uniform (`key="unif"`)
 
 The different options available for adjustment terms are:
 
-+ no adjustment terms (`adjustment=NULL`)
-+ cosine (`adjustment="cos"`) - default
-+ Hermite polynomial (`adjustment="herm"`)
-+ Simple polynomial (`adjustment="poly"`)
+-   no adjustment terms (`adjustment=NULL`)
+-   cosine (`adjustment="cos"`) - default
+-   Hermite polynomial (`adjustment="herm"`)
+-   Simple polynomial (`adjustment="poly"`)
 
-For each model specified below, note down the AIC, density and 95\% confidence interval and compare it to the model already fitted (i.e. half-normal with no adjustments). Which detection function model would you choose?
+For each model specified below, note down the AIC, density and 95% confidence interval and compare it to the model already fitted (i.e. half-normal with no adjustments). Which detection function model would you choose?
 
 To fit a uniform key function with cosine adjustment terms, use the command:
 
@@ -183,7 +192,7 @@ nest.uf.cos <- ds(ducknest, key="unif", adjustment="cos",
                   convert.units=conversion.factor)
 ```
 
-By default, AIC selection will be used to fit adjustment terms of up to order 5. Have any adjustment terms been selected?  
+By default, AIC selection will be used to fit adjustment terms of up to order 5. Have any adjustment terms been selected?
 
 To fit a hazard rate key function with Hermite polynomial adjustment terms, then use the command:
 
@@ -193,11 +202,3 @@ nest.hr.herm <- ds(ducknest, key="hr", adjustment="herm",
 ```
 
 # References
-
-Anderson DR and Pospahala RS (1970) Correction of bias in belt transect studies of immotile objects. The Journal of Wildlife Management 34:141-146. http://www.jstor.org/stable/3799501.
-
-Miller DL (2020) Distance: Distance Sampling Detection Function and Abundance Estimation. R package version 1.0.1. https://CRAN.R-project.org/package=Distance
-
-Miller DL, Rexstad E, Thomas L, Marshall L, Laake JL (2019) Distance Sampling in R. Journal of Statistical Software 89(1), 1-28. doi:10.18637/jss.v089.i01 http://doi.org/10.18637/jss.v089.i01.
-
-R Core Team (2018) R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org/

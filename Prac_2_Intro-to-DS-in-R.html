@@ -1622,12 +1622,12 @@ $(document).ready(function () {
     
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
               <p class="author"><span class="glyphicon glyphicon-user"></span> Centre for Research into Ecological and Environmental Modelling <br> <strong>University of St Andrews</strong></p>
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> Exercise 2. Line transect estimation using R <br>September 2020</p>
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> Exercise 2. Line transect estimation using R <br>November 2020</p>
         </div>
 </div>
 
 <div id="main">
-<p>In this exercise, we use <code>R</code> (R Core Team 2018) and the <code>Distance</code> package (Miller 2020, Miller <em>et al.</em> 2019) to fit different detection function models to the duck nest data (introduced in Exercise 1) and estimate duck nest density and abundance.</p>
+<p>In this exercise, we use <code>R</code> <span class="citation">(R Core Team, 2019)</span> and the <code>Distance</code> package <span class="citation">(Miller, Rexstad, Thomas, Marshall, &amp; Laake, 2019)</span> to fit different detection function models to the duck nest data (introduced in Exercise 1) and estimate duck nest density and abundance.</p>
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
 <p>The aims of this exercise are to:</p>
@@ -1642,11 +1642,11 @@ $(document).ready(function () {
 </div>
 <div id="survey-data" class="section level1">
 <h1>Survey data</h1>
-<p>As a reminder of the survey, 20 line transects, each of length 128.75 km, were searched out to a distance of 2.4 metres (Anderson and Pospahala 1970). Perpendicular distances to detected nests have been provided in a data set named <code>ducknest</code>. The columns in the file <code>ducknest</code> are:</p>
+<p>As a reminder of the survey, 20 line transects, each of length 128.75 km, were searched out to a distance of 2.4 metres <span class="citation">(Anderson &amp; Pospahala, 1970)</span>. Perpendicular distances to detected nests have been provided in a data set named <code>ducknest</code>. The columns in the file <code>ducknest</code> are:</p>
 <ul>
 <li>Study.Area - this is the name of the study, Monte Vista NWR</li>
 <li>Region.Label - identifier of regions: in this case there is only one region and it is set to ‘Default’</li>
-<li>Area - size of the study region (km<span class="math inline">\(^2\)</span>): here the area is set to zero. <em>The area of the refuge is 47.7 km<span class="math inline">\(^2\)</span> - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.</em></li>
+<li>Area - size of the study region (km<span class="math inline">\(^2\)</span>): here the area is set to zero. <em>The area of the refuge is 47.7 km</em><span class="math inline">\(^2\)</span> - this is needed to obtain abundance: for the purposes of this exercise, we are interested in fitting detection functions and density rather than abundance.</li>
 <li>Sample.Label - line transect identifier (numbered 1-20)</li>
 <li>Effort - length of the line transects (km)</li>
 <li>object - unique identifier for each duck nest identified</li>
@@ -1656,7 +1656,7 @@ $(document).ready(function () {
 </div>
 <div id="using-the-distance-package" class="section level1">
 <h1>Using the <code>Distance</code> package</h1>
-<p>The <code>Distance</code> package (Miller 2017) has been installed in RStudio/Cloud. <em>When you work on your own machine</em>, you will need to install it with this pair of commands:</p>
+<p>The <code>Distance</code> package has been installed in RStudio/Cloud. <em>When you work on your own machine</em>, you will need to install it with this pair of commands:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(remotes)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;DistanceDevelopment/Distance&quot;</span>)</span></code></pre></div>
 </div>
@@ -1686,15 +1686,15 @@ $(document).ready(function () {
 <p>Before fitting a model, the units of measure within the survey need to be reconciled. We can choose the units in which duck nest density is to be reported, we choose <em>square kilometres</em>. How to import this information to the <code>ds</code> function?</p>
 <p>The answer is another function <code>convert_units</code>. Arguments to this function are</p>
 <ul>
-<li>distance_units
+<li><p>distance_units</p>
 <ul>
 <li>units of measure for perpendicular/radial distances</li>
 </ul></li>
-<li>effort_units
+<li><p>effort_units</p>
 <ul>
 <li>units of measure for effort (NULL for point transects)</li>
 </ul></li>
-<li>area_units
+<li><p>area_units</p>
 <ul>
 <li>units of measure for the study area.</li>
 </ul></li>
@@ -1705,15 +1705,15 @@ $(document).ready(function () {
 <span id="cb8-3"><a href="#cb8-3"></a>              <span class="dt">convert.units=</span>conversion.factor)</span></code></pre></div>
 <p>Details about the arguments for this function:</p>
 <ul>
-<li><code>key=&quot;hn&quot;</code>
+<li><p><code>key=&quot;hn&quot;</code></p>
 <ul>
 <li>fit a half-normal key detection function</li>
 </ul></li>
-<li><code>adjustment=NULL</code>
+<li><p><code>adjustment=NULL</code></p>
 <ul>
 <li>do not include adjustment terms</li>
 </ul></li>
-<li><code>convert.units=conversion.factor</code>
+<li><p><code>convert.units=conversion.factor</code></p>
 <ul>
 <li>required because, for this example, the perpendicular distances are in metres and the line transect lengths are in km - this argument converts the perpendicular distance measurements from metres to km.</li>
 </ul></li>
@@ -1730,7 +1730,7 @@ $(document).ready(function () {
 </div>
 <div id="goodness-of-fit" class="section level1">
 <h1>Goodness of fit</h1>
-<p>The usual tools for checking goodness of fit are available: the function <code>gof_ds</code> performs goodness of fits tests and plots a QQ-plot. In this command, 8 bins will be used for the chi-square goodness of fit test.</p>
+<p>Prior to making inference based upon a detection function model, it is prudent to assess the fit of the model. The usual tools for checking goodness of fit are available: the function <code>gof_ds</code> performs goodness of fits tests and plots a QQ-plot. In this command, 8 bins will be used for the chi-square goodness of fit test.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">gof_ds</span>(nest.hn, <span class="dt">nc=</span><span class="dv">8</span>)</span></code></pre></div>
 </div>
 <div id="specifying-different-detection-functions" class="section level1">
@@ -1758,12 +1758,19 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>nest.hr.herm &lt;-<span class="st"> </span><span class="kw">ds</span>(ducknest, <span class="dt">key=</span><span class="st">&quot;hr&quot;</span>, <span class="dt">adjustment=</span><span class="st">&quot;herm&quot;</span>, </span>
 <span id="cb14-2"><a href="#cb14-2"></a>                  <span class="dt">convert.units=</span>conversion.factor)</span></code></pre></div>
 </div>
-<div id="references" class="section level1">
-<h1>References</h1>
-<p>Anderson DR and Pospahala RS (1970) Correction of bias in belt transect studies of immotile objects. The Journal of Wildlife Management 34:141-146. <a href="http://www.jstor.org/stable/3799501" class="uri">http://www.jstor.org/stable/3799501</a>.</p>
-<p>Miller DL (2020) Distance: Distance Sampling Detection Function and Abundance Estimation. R package version 1.0.1. <a href="https://CRAN.R-project.org/package=Distance" class="uri">https://CRAN.R-project.org/package=Distance</a></p>
-<p>Miller DL, Rexstad E, Thomas L, Marshall L, Laake JL (2019) Distance Sampling in R. Journal of Statistical Software 89(1), 1-28. <a href="doi:10.18637/jss.v089.i01" class="uri">doi:10.18637/jss.v089.i01</a> <a href="http://doi.org/10.18637/jss.v089.i01" class="uri">http://doi.org/10.18637/jss.v089.i01</a>.</p>
-<p>R Core Team (2018) R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a></p>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references hanging-indent">
+<div id="ref-anderson1970">
+<p>Anderson, D., &amp; Pospahala, R. (1970). Correction of bias in belt transect studies of immotile objects. <em>The Journal of Wildlife Management</em>, <em>34</em>(1), 141–146. <a href="https://doi.org/10.2307/3799501">https://doi.org/10.2307/3799501</a></p>
+</div>
+<div id="ref-miller2019">
+<p>Miller, D., Rexstad, E., Thomas, L., Marshall, L., &amp; Laake, J. (2019). Distance sampling in r. <em>Journal of Statistical Software</em>, <em>89</em>(1), 1–28. <a href="https://doi.org/10.18637/jss.v089.i01">https://doi.org/10.18637/jss.v089.i01</a></p>
+</div>
+<div id="ref-rcoreteam2019">
+<p>R Core Team. (2019). <em>R: A language and environment for statistical computing</em>. Retrieved from <a href="https://www.R-project.org">https://www.R-project.org</a></p>
+</div>
+</div>
 </div>
 </div>
 
