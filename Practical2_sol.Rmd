@@ -1,0 +1,176 @@
+#< ignore
+
+```{r start}
+setwd("C:/Users/erexs/Documents/RTutor/introwkshp")
+library(RTutor)
+create.ps(sol.file="Practical2_sol.Rmd", ps.name="Practical2", 
+          user.name = NULL, addons="quiz")
+show.ps("Practical2")
+```
+
+#>
+
+<img src=https://images.unsplash.com/photo-1593594820228-a05cc04bc433?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80  width=400 height=200 style="float:right">
+
+## Exercise 2 -- Duck nest analysis
+
+This has been your first experience using the `Distance` package.  There are only a handful of functions you need to successfully complete a distance sampling analysis.  This practical gave you experience with these functions.  The data are familiar to you because they the same data you used when trying to fit a detection function by hand in Exercise 1.  This exercise lets the computer do the work.  Compare the estimate of duck nest density produced by `Distance` with the estimate you manually produced.
+
+You should have already executed code as described in Practical 2.  I have duplicated some of the code and output here to reduce your need to switch between this tutorial and your previous work.
+
+#< preknit
+
+```{r message=FALSE}
+library(Distance, quietly = TRUE)
+data(ducknest)
+duckunits <- convert_units("meter", "kilometer", "square kilometer")
+halfnorm <- ds(data=ducknest, key="hn", convert.units = duckunits)
+summary(halfnorm)
+```
+
+#>
+
+
+#< quiz "Pa"
+question: For the half normal detection function, what was the estimated value of $\hat{P}_a$?
+sc:
+    - 0.869*
+    - 0.039
+    - 614.25
+    - 0.933
+success: Right; 0.869 is much closer to 1 than to 0, suggesting the observers were good.
+failure: The label of the output is `Average p`
+#>
+
+#< quiz "Pa-defn"
+question: Now that you have an estimate of $\hat{P}_a$, what does it mean?
+sc:
+    - distance to which nests were detected
+    - area under the curve
+    - proportion of nests detected out to 2.4m*
+    - number of iterations needed to estimate detection function parameters
+success: Right; a measure of how well observers detect nests
+failure: Think of it as a probability
+#>
+
+### Density estimate to abundance estimate
+
+a) The field `area` was set to 0 in the `ducknest` data frame; however the practical description notes that the refuge is 47.7 km^2 in size.  Use the code block below to compute the number of duck nests based upon your estimate of $\hat{D}$ (to two decimal places).
+
+```{r "2 a)"}
+#< hint
+display("Replace the blanks with numerical values; area is in the question and dhat comes from the summary shown above.  Write a statement that computes the product.")
+#>
+
+#< fill_in
+dhat <- ___
+area <- ___
+est.num.nests <- ___
+print(est.num.nests)
+#>
+dhat <- 49.69
+area <- 47.7
+est.num.nests <- dhat * area
+print(est.num.nests)
+```
+
+
+### Assessing model fit
+
+b) Although we have not yet discussed how to assess fit of our models to data, Practical 2 did introduce you to the function `gof_ds`.  In the code chunk below, apply this goodness of fit function to the half normal detection function fitted to the duck nest data and interpret the results.
+
+#< preknit
+```{r out.width="40%"}
+gof_ds(halfnorm)
+```
+
+#>
+
+#< quiz "QQintperpret"
+question: How should the plot be interpreted? (select two correct answers)
+mc:
+    - departures from good fit are indicated by departures from the underlying 45° line*
+    - model that fits has all points near the 45° line*
+    - this plot has nothing to do with model fit
+    - a rapid rise in the graphed points implies good model fit
+success: Right; if rate of progress through the data mass (x-axis) is equal to rate of progress through the fitted cumulative density function (y-axis), fit is deemed adequate
+failure: Afraid not, the axes measure progress through the density of data and density of the fitted detection function.
+#>
+
+#< quiz "GOF"
+question: The numerical output from `gof_ds` is from the Cramer-von Mises test.   Interpret the output.
+sc:
+    - P-value is <1, therefore the model fit is poor
+    - The test statistic is smaller than the P-value, therefore the fit is adequate
+    - The test statistic is close to 0, therefore the fit is poor
+    - P-value is close to one, indicating that there’s no reason to suspect the fit is inadequate*
+success: Right; any P-value larger than 0.05 (or whatever $\alpha$ you choose), is evidence that your model fits the data you observed.
+failure: The hypothesis being tested is did the data arise from the same distribution as the model.
+#>
+
+### Difference in density estimates from different models
+
+#< preknit
+
+```{r echo=FALSE, message=FALSE}
+nest.hn <- ds(ducknest, key="hn", adjustment=NULL,
+              convert.units=duckunits)
+nest.uf.cos <- ds(ducknest, key="unif", adjustment="cos",
+                  convert.units=duckunits)
+nest.hr.herm <- ds(ducknest, key="hr", adjustment="herm", 
+                  convert.units=duckunits)
+```
+
+```{r "table", echo=FALSE}
+nest.tab <- data.frame(
+                       DetectionFunction=c("Half-normal, no adjustments",
+                                           "Uniform, cosine adjustments",
+                                           "Hazard rate, no adjustments "),
+                       Density=rep(NA,3), LowerCI=rep(NA,3), UpperCI=rep(NA,3))
+
+get.results.f <- function(fit.model) {   
+  return(c(D=fit.model$dht$individuals$D$Estimate,
+         lCL=fit.model$dht$individuals$D$lcl,
+         uCL=fit.model$dht$individuals$D$ucl))
+}
+nest.tab[1,2:4] <- get.results.f(nest.hn)
+nest.tab[2,2:4] <- get.results.f(nest.uf.cos)
+nest.tab[3,2:4] <- get.results.f(nest.hr.herm)
+knitr::kable(nest.tab, 
+             caption="Density estimates and confidence intervals for three fitted models.", 
+             digits = 1) %>%
+    kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
+
+#>
+
+c) The preceding code fit all three key function models to the duck nest data.  To reinforce the idea that similar results are produced *(for good data)* from the different key functions, write a few lines of code to explore this.  Value entered can be to one decimal place.
+- find key function model that produces the lowest density estimate and assign to `nest.hr.herm`
+- find the key function model that produces the largest density estimate and assign to `nest.uf.cos`
+- compute the difference between these estimates (`d.diff`) and
+- relativise by dividing by the smaller density estimate `rel.diff`
+
+```{r "2 c)"}
+#< hint
+display("Find the density estimates in your output; compute their difference; relativise the difference.")
+#>
+
+#< fill_in
+nest.hr.herm <- ___
+nest.uf.cos <- ___
+d.diff <- ___
+rel.diff <- ___
+print(rel.diff)
+#>
+nest.hr.herm <- 48.6
+nest.uf.cos <- 51.0
+d.diff <- nest.uf.cos - nest.hr.herm
+rel.diff <- d.diff / nest.hr.herm
+print(rel.diff)
+```
+
+#< quiz "pctdiff"
+question: To the nearest **percent**, what is the relative difference between the largest and smallest density estimate you just computed?
+answer: 5
+roundto: 1
+#> 

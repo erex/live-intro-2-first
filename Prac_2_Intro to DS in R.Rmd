@@ -1,8 +1,7 @@
 ---
-title: "Introduction to distance sampling"
-author: Centre for Research into Ecological and Environmental Modelling <br> **University
-  of St Andrews**
-date: Exercise 2. Line transect estimation using R <br>November 2020
+title: Exercise 2<br>Line transect estimation using R
+author: Centre for Research into Ecological and Environmental Modelling <br> **University of St Andrews**
+date: Introduction to distance sampling<br> April 2021
 output:
   rmdformats::readthedown:
     highlight: tango
@@ -99,17 +98,12 @@ Before fitting a model, the units of measure within the survey need to be reconc
 
 The answer is another function `convert_units`. Arguments to this function are
 
--   distance\_units
-
-    -   units of measure for perpendicular/radial distances
-
--   effort\_units
-
-    -   units of measure for effort (NULL for point transects)
-
--   area\_units
-
-    -   units of measure for the study area.
+- distance_units
+    - units of measure for perpendicular/radial distances
+- effort_units
+    - units of measure for effort (NULL for point transects)
+- area_units
+    - units of measure for the study area.
 
 ```{r, echo=TRUE, eval=FALSE}
 conversion.factor <- convert_units("meter", "kilometer", "square kilometer")
@@ -123,17 +117,12 @@ nest.hn <- ds(data=ducknest, key="hn", adjustment=NULL,
 
 Details about the arguments for this function:
 
--   `key="hn"`
-
-    -   fit a half-normal key detection function
-
--   `adjustment=NULL`
-
-    -   do not include adjustment terms
-
--   `convert.units=conversion.factor`
-
-    -   required because, for this example, the perpendicular distances are in metres and the line transect lengths are in km - this argument converts the perpendicular distance measurements from metres to km.
+- `key="hn"`
+    - fit a half-normal key detection function
+- `adjustment=NULL`
+    - do not include adjustment terms
+- `convert.units=conversion.factor`
+    - required because, for this example, the perpendicular distances are in metres and the line transect lengths are in km - this argument converts the perpendicular distance measurements from metres to km.
 
 As we have seen, on executing the `ds` command some information is provided to the screen reminding the user what model has been fitted and the associated AIC value. More information is supplied if we ask for a summary of the model as follows:
 

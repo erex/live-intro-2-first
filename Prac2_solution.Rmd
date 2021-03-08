@@ -1,8 +1,7 @@
 ---
-title: "Introduction to distance sampling"
-author: Centre for Research into Ecological and Environmental Modelling <br> **University
-  of St Andrews**
-date: Exercise 2. Line transect estimation using R <br>November 2020
+title: Exercise 2<br> Line transect estimation using R
+author: Centre for Research into Ecological and Environmental Modelling <br> **University of St Andrews**
+date: Introduction to distance sampling<br> April 2021
 output:
   rmdformats::readthedown:
     highlight: tango
