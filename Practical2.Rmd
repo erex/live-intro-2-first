@@ -15,7 +15,7 @@ You should have already executed code as described in Practical 2.  I have dupli
 
 ```{r eval=FALSE}
 # Run for additional info in the Viewer pane
-info("preknit_PTePlYLUtULI")
+info("preknit_XBjFSlmoRsFJ")
 ```
 
 
@@ -63,7 +63,7 @@ b) Although we have not yet discussed how to assess fit of our models to data, P
 
 ```{r eval=FALSE}
 # Run for additional info in the Viewer pane
-info("preknit_PNSvwqxqKRks")
+info("preknit_BwBjhQGQUYOS")
 ```
 
 
@@ -96,7 +96,7 @@ answer.quiz("GOF")
 
 ```{r eval=FALSE}
 # Run for additional info in the Viewer pane
-info("preknit_rIYyIJJdRFVJ")
+info("preknit_mmLUUgbvFfxt")
 ```
 
 c) The preceding code fit all three key function models to the duck nest data.  To reinforce the idea that similar results are produced *(for good data)* from the different key functions, write a few lines of code to explore this.  Value entered to one decimal place.

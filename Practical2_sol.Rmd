@@ -68,7 +68,7 @@ area <- ___
 est.num.nests <- ___
 print(est.num.nests)
 #>
-dhat <- 49.69
+dhat <- 49.7
 area <- 47.7
 est.num.nests <- dhat * area
 print(est.num.nests)
