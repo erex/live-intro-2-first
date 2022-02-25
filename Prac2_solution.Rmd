@@ -1,7 +1,7 @@
 ---
 title: Exercise 2<br> Line transect estimation using R
 author: Centre for Research into Ecological and Environmental Modelling <br> **University of St Andrews**
-date: Introduction to distance sampling<br> January 2022
+date: Introduction to distance sampling<br> April 2022
 output:
   rmdformats::readthedown:
     highlight: tango
@@ -49,7 +49,7 @@ The answer is another function `convert_units`.  Arguments to this function are
 conversion.factor <- convert_units("Meter", "Kilometer", "Square Kilometer")
 # Half-normal with no adjustments
 nest.hn <- ds(ducknest, key="hn", adjustment=NULL,
-              convert.units=conversion.factor)
+              convert_units=conversion.factor)
 summary(nest.hn)
 ```
 
@@ -57,9 +57,9 @@ In addition to the half normal key function, fit uniform and hazard rate models 
 
 ```{r, message=FALSE}
 nest.uf.cos <- ds(ducknest, key="unif", adjustment="cos",
-                  convert.units=conversion.factor)
+                  convert_units=conversion.factor)
 nest.hr.herm <- ds(ducknest, key="hr", adjustment="herm", 
-                  convert.units=conversion.factor)
+                  convert_units=conversion.factor)
 ```
 
 #  Assess absolute model fit

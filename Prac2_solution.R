@@ -19,15 +19,15 @@ hist(ducknest$distance, breaks=brks, xlab="Distance (m)",
 conversion.factor <- convert_units("Meter", "Kilometer", "Square Kilometer")
 # Half-normal with no adjustments
 nest.hn <- ds(ducknest, key="hn", adjustment=NULL,
-              convert.units=conversion.factor)
+              convert_units=conversion.factor)
 summary(nest.hn)
 
 
 ## ---- message=FALSE--------------------------------------------------------------------
 nest.uf.cos <- ds(ducknest, key="unif", adjustment="cos",
-                  convert.units=conversion.factor)
+                  convert_units=conversion.factor)
 nest.hr.herm <- ds(ducknest, key="hr", adjustment="herm", 
-                  convert.units=conversion.factor)
+                  convert_units=conversion.factor)
 
 
 ## ---- echo=T---------------------------------------------------------------------------

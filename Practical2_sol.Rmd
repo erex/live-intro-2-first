@@ -24,7 +24,7 @@ You should have already executed code as described in Practical 2.  I have dupli
 library(Distance, quietly = TRUE)
 data(ducknest)
 duckunits <- convert_units("meter", "kilometer", "square kilometer")
-halfnorm <- ds(data=ducknest, key="hn", convert.units = duckunits)
+halfnorm <- ds(data=ducknest, key="hn", convert_units = duckunits)
 summary(halfnorm)
 ```
 
@@ -114,11 +114,11 @@ failure: The hypothesis being tested is did the data arise from the same distrib
 
 ```{r echo=FALSE, message=FALSE}
 nest.hn <- ds(ducknest, key="hn", adjustment=NULL,
-              convert.units=duckunits)
+              convert_units=duckunits)
 nest.uf.cos <- ds(ducknest, key="unif", adjustment="cos",
-                  convert.units=duckunits)
+                  convert_units=duckunits)
 nest.hr.herm <- ds(ducknest, key="hr", adjustment="herm", 
-                  convert.units=duckunits)
+                  convert_units=duckunits)
 ```
 
 ```{r "table", echo=FALSE}

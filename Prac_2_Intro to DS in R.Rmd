@@ -1,7 +1,7 @@
 ---
 title: Exercise 2<br>Line transect estimation using R
 author: Centre for Research into Ecological and Environmental Modelling <br> **University of St Andrews**
-date: Introduction to distance sampling<br> January 2022
+date: Introduction to distance sampling<br> April 2022
 output:
   rmdformats::readthedown:
     highlight: tango
@@ -91,7 +91,7 @@ hist(ducknest$distance, xlab="Distance (m)")
 Detection functions are fitted using the `ds` function and this function requires a data frame to have a column called `distance`. We have this in our `ducknest` data, therefore, we can simply supply the name of the data frame to the function as follows.
 
 ::: {.alert .alert-info}
-<strong>Careful!</strong> A guaranteed way to produce incorrect results from your analysis is to misspecify the units distances are measured. The `ds` function has an argument `convert.units` where the user provides a value to report density in proper units. Providing an incorrect value will result in estimates that are out by orders of magnitude.
+<strong>Careful!</strong> A guaranteed way to produce incorrect results from your analysis is to misspecify the units distances are measured. The `ds` function has an argument `convert_units` where the user provides a value to report density in proper units. Providing an incorrect value will result in estimates that are out by orders of magnitude.
 :::
 
 Before fitting a model, the units of measure within the survey need to be reconciled. We can choose the units in which duck nest density is to be reported, we choose *square kilometres*. How to import this information to the `ds` function?
@@ -112,7 +112,7 @@ conversion.factor <- convert_units("meter", "kilometer", "square kilometer")
 ```{r, echo=TRUE, eval=answer}
 # Fit half-normal detection function, no adjustment terms
 nest.hn <- ds(data=ducknest, key="hn", adjustment=NULL,
-              convert.units=conversion.factor)
+              convert_units=conversion.factor)
 ```
 
 Details about the arguments for this function:
@@ -121,7 +121,7 @@ Details about the arguments for this function:
     - fit a half-normal key detection function
 - `adjustment=NULL`
     - do not include adjustment terms
-- `convert.units=conversion.factor`
+- `convert_units=conversion.factor`
     - required because, for this example, the perpendicular distances are in metres and the line transect lengths are in km - this argument converts the perpendicular distance measurements from metres to km.
 
 As we have seen, on executing the `ds` command some information is provided to the screen reminding the user what model has been fitted and the associated AIC value. More information is supplied if we ask for a summary of the model as follows:
@@ -178,7 +178,7 @@ To fit a uniform key function with cosine adjustment terms, use the command:
 
 ```{r, echo=TRUE, eval=answer, message=FALSE}
 nest.uf.cos <- ds(ducknest, key="unif", adjustment="cos",
-                  convert.units=conversion.factor)
+                  convert_units=conversion.factor)
 ```
 
 By default, AIC selection will be used to fit adjustment terms of up to order 5. Have any adjustment terms been selected?
@@ -187,7 +187,7 @@ To fit a hazard rate key function with Hermite polynomial adjustment terms, then
 
 ```{r, echo=TRUE, eval=answer, message=FALSE}
 nest.hr.herm <- ds(ducknest, key="hr", adjustment="herm", 
-                  convert.units=conversion.factor)
+                  convert_units=conversion.factor)
 ```
 
 # References
